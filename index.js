@@ -25,6 +25,6 @@ server.get('/', (req, res)=> {
 
 server.post('/products', createProduct);
 
-server.listen(8080,()=>{
+server.listen(process.env.PORT,()=>{
     console.log("server Started");
 });
