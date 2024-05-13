@@ -6,8 +6,14 @@ const { createProduct } = require('./controllers/Product');
 const productRouter = require('./routes/Products')
 const categoryRouter = require('./routes/Categories')
 const brandsRouter = require('./routes/Brands')
+const cors = require('cors')
 
 //middlewares
+server.use(cors(
+  {
+    exposedheaders:['X-Total-Count']
+  }
+));
 server.use(express.json());     // to parse req.body that we are expecting from front end.
 server.use('/products', productRouter.router);
 server.use('/categories', categoryRouter.router);

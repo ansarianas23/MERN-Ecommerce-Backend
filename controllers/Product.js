@@ -1,16 +1,18 @@
 const { Product } = require("../model/Product")
 
+// Create Single Product
 exports.createProduct = async(req, res)=>{
     // this product we have to get from API Body
     const product = new Product(req.body);
     try {
         const doc = await product.save();
         res.status(201).json(doc);
-    } catch (error) {
-        res.status(400).json(doc);
+    } catch (err) {
+        res.status(400).json(err);
     }
 }
 
+// Fetch All products/queried products like filter sort etc
 exports.fetchAllProducts = async(req, res)=>{
     // this product we have to get from API Body
     // here we need all query string
@@ -49,6 +51,30 @@ exports.fetchAllProducts = async(req, res)=>{
         const docs = await query.exec();
         res.set('X-total-Count', totalDocs);
         res.status(200).json(docs);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+// Fetch Single Products by id
+exports.fetchProductById = async(req, res)=>{
+    const { id } = req.params;
+    
+    try {
+        const product = await Product.findById(id);
+        res.status(200).json(product);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
+
+// Update Single Products by id
+exports.updateProduct = async(req, res)=>{
+    const { id } = req.params;
+    
+    try {
+        const product = await Product.findByIdAndUpdate(id, req.body, {new: true});
+        res.status(200).json(product);
     } catch (err) {
         res.status(400).json(err);
     }
