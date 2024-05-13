@@ -4,7 +4,8 @@ const { createProduct, fetchAllProducts, fetchProductById, updateProduct } = req
 const router = express.Router();
 
 // /product is already added in base path which is index.js
-router.post('/', createProduct)
+router
+    .post('/', createProduct)
     .get('/', fetchAllProducts)
     .get('/:id', fetchProductById)
     .patch('/:id', updateProduct)
