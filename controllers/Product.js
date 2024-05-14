@@ -17,8 +17,14 @@ exports.fetchAllProducts = async(req, res)=>{
     // this product we have to get from API Body
     // here we need all query string
     // will get all product from DB
-    let query = Product.find({});
-    let totalProductsQuery = Product.find({});
+    condition = {}
+    if(!req.query.admin){
+        condition.deleted = {$ne: true}
+    }
+
+    let query = Product.find(condition);
+    // let totalProductsQuery = Product.find({deleted:{$ne: true}});    // this is earlier we use to do
+    let totalProductsQuery = Product.find(condition);
     
     // will get category query products from DB
     if(req.query.category){

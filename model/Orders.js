@@ -3,14 +3,14 @@ const {Schema } = mongoose;
 
 
 const orderSchema = new Schema({
-    items: [{type:[Schema.Types.Mixed], required:true}],
+    items: {type:[Schema.Types.Mixed], required:true},
     totalAmount: {type: Number},
     totalItems: {type: Number},
     user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     // TODO: later we will ad enum type
     paymentMethod: {type: String, required:true},
     status: {type: String, default:'pending'},
-    selectedAddress: {type:[Schema.Types.Mixed], required:true}
+    selectedAddress: {type:Schema.Types.Mixed, required:true}
 });
 
 // this is to create virtual id and add it into document it will be id and not _id
