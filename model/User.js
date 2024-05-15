@@ -4,11 +4,12 @@ const {Schema } = mongoose;
 
 const userSchema = new Schema({
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: true, unique: true},
+    password: {type: Buffer, required: true, unique: true},
     role: {type: String, required: true, default: 'user'},
     addresses: {type: [Schema.Types.Mixed]},
     name: {type: String},
     orders: {type: [Schema.Types.Mixed]},
+    salt: Buffer
 });
 
 // this is to create virtual id and add it into document it will be id and not _id
