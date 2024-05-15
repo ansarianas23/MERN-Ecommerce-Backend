@@ -5,7 +5,7 @@ const router = express.Router();
 
 // /product is already added in base path which is index.js
 router
-    .get('/:id', fetchUserbyId)
+    .get('/own', fetchUserbyId)
     .patch('/:id', updateUser)
 
 exports.router = router;

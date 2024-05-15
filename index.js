@@ -10,6 +10,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto');
+const cookieParser = require('cookie-parser')
 const productRouter = require('./routes/Products')
 const categoryRouter = require('./routes/Categories')
 const brandsRouter = require('./routes/Brands')
@@ -18,17 +19,20 @@ const authRouter = require('./routes/Auth')
 const cartRouter = require('./routes/Cart')
 const orderRouter = require('./routes/Order');
 const { User } = require('./model/User');
-const { isAuth, sanitizeUser } = require('./services/common');
+const { isAuth, sanitizeUser, cookieExtractor } = require('./services/common');
+const path = require('path');
 
 // JWT options
 const SECRET_KEY = 'SECRET_KEY'
 const opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = SECRET_KEY;  // TODO: should not be in code
 
 
 //middlewares
 
+server.use(express.static('dist'));
+server.use(cookieParser());
 server.use(
   session({
   secret: process.env.SESSION_KEY,
@@ -66,7 +70,7 @@ passport.use('local', new LocalStrategy(
         }
 
         const token = jwt.sign(sanitizeUser(user), SECRET_KEY)
-        done(null, token);   // this line sends to serializer
+        done(null, {token});   // this line sends to serializer
       })
 
     } catch (err) {
