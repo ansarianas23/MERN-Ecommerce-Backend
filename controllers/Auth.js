@@ -19,7 +19,7 @@ exports.createUser = async(req, res)=>{
                 const token = jwt.sign(sanitizeUser(doc), SECRET_KEY)
                 res.cookie('jwt', token, {expires: new Date(Date.now() + 3600000), httpOnly: true})
                 .status(201)
-                .json(token);
+                .json({id: doc.id, role: doc.role});
             }
         })
         })
@@ -35,6 +35,11 @@ exports.loginUser = async(req, res)=>{
     .json(user.token);
 }
 
-exports.checkUser = async(req, res)=>{
-    res.json({status: "suucess", user:req.user});
+
+exports.checkAuth = async(req, res)=>{
+    if(req.user){
+        res.json(req.user);
+    }else{
+        res.sendStatus(401);
+    }
 }
