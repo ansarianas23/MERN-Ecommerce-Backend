@@ -112,11 +112,13 @@ passport.deserializeUser(function(user, cb) {
 // Payments
 // const stripe = require("stripe")('');
 
-const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
+// const stripe = require("stripe")(process.env.STRIPE_SERVER_KEY);
+const stripe = require("stripe")('sk_test_51PGzcySD42mTGuIcIwVtc6PkrLG5SqGXz9HI5hxlH4TZ19h88YG74KqCiqBpS6BvkkeOPUu1pnUrV3u4vrymupIu00aVZHsoSb');
 
 
 server.post("/create-payment-intent", async (req, res) => {
   const { totalAmount } = req.body;
+  console.log("amount recevied at backend", totalAmount);
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
